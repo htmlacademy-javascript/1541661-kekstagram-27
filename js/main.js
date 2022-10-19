@@ -34,6 +34,13 @@ function checkStringLength (string, length) {
 }
 checkStringLength('privet', 6);
 
+const AVATARS_COUNT = 6;
+const SIMILAR_OBJECTS_COUNT = 25;
+const LIKES_COUNT = {
+  MIN: 15,
+  MAX: 200
+};
+
 const NAMES = [
   'Иван',
   'Дмитрий',
@@ -47,27 +54,46 @@ const NAMES = [
 
 const COMMENTS = [
   'Всё отлично!',
-  'В целом всё неплохо. Но не всё.'
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const SIMILAR_OBJECTS_COUNT = 25;
+const DESCRTIPTIONS = [
+  'Красивая фотография!',
+  'Отличное фото!',
+  'Замечательно!',
+  'Идеально!',
+];
+
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+
+//Took from 4.18. Лайв «Ретроспектива. Структуры данных и встроенные API»
+const createMessage = () => Array.from({length: getRandomPositiveInteger(1,2)}, () =>
+  getRandomArrayElement(COMMENTS))
+  .join(' ');
+
+const createComment = () => ({
+  id: `${String(Date.now()) + Math.floor(Math.random() * 10000)}`,
+  avatar: `img/avatar-${getRandomPositiveInteger(1,AVATARS_COUNT)}.svg`,
+  message: createMessage(),
+  name: getRandomArrayElement(NAMES)
+});
 
 const createUserDescription = (id, url) => ({
   id: id,
   url: `photos/${url}.jpg`,
-  description: 'Красивая фотография',
-  likes: getRandomPositiveInteger(15,200),
-  message: `${getRandomArrayElement(COMMENTS)}`,
-  commentId: `${String(Date.now()) + Math.floor(Math.random() * 10000)}`,
-  avatar: `img/avatar-${getRandomPositiveInteger(1,6)}.svg`,
-  name: `${getRandomArrayElement(NAMES) }`
+  description: getRandomArrayElement(DESCRTIPTIONS),
+  likes: getRandomPositiveInteger(LIKES_COUNT.MIN, LIKES_COUNT.MAX),
+  comments: createComment()
 });
 
 
-const similarUserDescription = [];
+const getUserDescription = [];
 for (let i = 1; i <= SIMILAR_OBJECTS_COUNT; i++) {
-  similarUserDescription.push(createUserDescription(i,i));
+  getUserDescription.push(createUserDescription(i,i));
   createUserDescription.id = i;
   createUserDescription.url = i;
 }
