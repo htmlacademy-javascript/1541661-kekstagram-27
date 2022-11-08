@@ -1,5 +1,5 @@
-import './draw_thumbnails.js';
-import {getUserDescription} from './data.js';
+import {getUserPosts} from './data.js';
+import {renderUserPhotos} from './create-pictures.js';
 
-// eslint-disable-next-line no-console
-console.log(getUserDescription());
+getUserPosts();
+renderUserPhotos();
