@@ -50,7 +50,7 @@ const createComments = () => ({
   name: getRandomArrayElement(NAMES)
 });
 
-const createUserDescription = (index) => ({
+const createUserPosts = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(DESCRTIPTIONS),
@@ -60,12 +60,12 @@ const createUserDescription = (index) => ({
     createComments())
 });
 
-const getUserDescription = () => {
-  const userDescription = [];
+const getUserPosts = () => {
+  const userPosts = [];
   for (let i = 1; i <= SIMILAR_OBJECTS_COUNT; i++) {
-    userDescription.push(createUserDescription(i));
+    userPosts.push(createUserPosts(i));
   }
-  return userDescription;
+  return userPosts;
 };
 
-export {getUserDescription};
+export {getUserPosts};
