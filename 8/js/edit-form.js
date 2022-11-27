@@ -14,7 +14,6 @@ const regExp = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
 
 const checkCommentsLength = (value) => value.length <= MAX_STRING_LENGTH;
-// сначала разделяем строку на массив значений, затем каждое значание "фильтруем"(проверяем на true) колбэк функцией на пустую строку
 const getHashtags = (string) => string.split(' ').filter((item) => item !== '');
 
 
@@ -65,15 +64,17 @@ const showUploadPopup = (evt) => {
   document.addEventListener('keydown',onPopupEscKeydown);
 };
 
+
+const pristine = new Pristine(form, {
+  classTo: 'text',
+  errorClass: 'text--invalid',
+  successClass: 'text-valid',
+  errorTextParent: 'text',
+  errorTextTag: 'div',
+  errorTextClass: 'text__error'
+});
+
 const validateForm = () => {
-  const pristine = new Pristine(form, {
-    classTo: 'text',
-    errorClass: 'text--invalid',
-    successClass: 'text-valid',
-    errorTextParent: 'text',
-    errorTextTag: 'div',
-    errorTextClass: 'text__error'
-  });
   pristine.addValidator(commentsField, checkCommentsLength, `Не более ${MAX_STRING_LENGTH} символов`);
   pristine.addValidator(hashtagsField, getUniqueHashtags, 'Хэштеги не могут повторяться');
   pristine.addValidator(hashtagsField, checkQuantity, 'Не более 5 хэштегов');
@@ -86,9 +87,6 @@ const validateForm = () => {
   });
 };
 
-const renderUploadForm = () => {
-  imgUploadField.addEventListener('change', showUploadPopup);
-  validateForm();
-};
+imgUploadField.addEventListener('change', showUploadPopup);
+validateForm();
 
-export {renderUploadForm};
